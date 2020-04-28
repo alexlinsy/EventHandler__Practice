@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./styles.css";
 
 export default function App() {
-  const [events, setEvents] = useState({
+  const [events, setEvents] = useState(() => ({
     click: 0,
     name: window.localStorage.getItem("name") || ""
-  });
+  }));
   function handleClicks() {
     setEvents({ ...events, click: events.click + 1 });
   }
