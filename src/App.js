@@ -17,7 +17,7 @@ export default function App() {
   }
   useEffect(() => {
     window.localStorage.setItem("name", events.name);
-  });
+  }, [events.name]);
   return (
     <div className="App">
       <p>There have been {events.click} clicks</p>
