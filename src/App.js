@@ -2,10 +2,21 @@ import React, { useState, useEffect } from "react";
 import "./styles.css";
 
 export default function App() {
-  const [events, setEvents] = useState(() => ({
-    click: 0,
-    name: window.localStorage.getItem("name") || ""
-  }));
+  function useLocalStorage(key, defaultValue) {
+    const [state, setState] = useState(() => ({
+      click: 0,
+      name: window.localStorage.getItem(key) || defaultValue
+    }));
+
+    useEffect(() => {
+      window.localStorage.setItem("name", events.name);
+    }, [state.name]);
+
+    return [state, setState];
+  }
+
+  const [events, setEvents] = useLocalStorage("name", "");
+
   function handleClicks() {
     setEvents({ ...events, click: events.click + 1 });
   }
@@ -13,11 +24,8 @@ export default function App() {
     setEvents({ ...events, name: event.target.value });
   }
   function resetClicks() {
-    setEvents({ ...events, click: 0 });
+    setEvents({ ...events, click: 0, name: "" });
   }
-  useEffect(() => {
-    window.localStorage.setItem("name", events.name);
-  }, [events.name]);
   return (
     <div className="App">
       <p>There have been {events.click} clicks</p>
